@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Netra Jyoti Eye Clinic</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #005A9C;
+            --secondary-color: #00A89D;
+            --accent-color: #F7941D;
+            --text-color: #333333;
+            --light-gray: #f4f7f6;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 90, 156, 0.1);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background-color: var(--white);
+            line-height: 1.7;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header & Navigation */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(247, 148, 29, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(247, 148, 29, 0.4);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding: 150px 0 80px 0;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            text-align: center;
+            color: var(--white);
+        }
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Services Section */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .service-detail-card {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .service-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            align-items: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-item:nth-child(even) {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        .service-item:nth-child(even) .service-image-container {
+            order: 2;
+        }
+
+        .service-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .service-content h3 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .service-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Footer */
+        .main-footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 60px 0 20px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .footer-col p, .footer-col ul, .footer-col a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--white);
+            padding-left: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+             .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                padding: 2rem 0;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .cta-button-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .service-item, .service-item:nth-child(even) {
+                grid-template-columns: 1fr;
+            }
+            .service-item:nth-child(even) .service-image-container {
+                order: 0;
+            }
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container main-nav">
+            <a href="index.html" class="logo">Netra<span>Jyoti</span></a>
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html" class="active">Services</a></li>
+                    <li><a href="doctors.html">Doctors</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+            <a href="booking.html" class="cta-button cta-button-nav">Book Appointment</a>
+            <div class="mobile-menu-toggle" id="mobile-menu-toggle">&#9776;</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Our Eye Care Services</h1>
+                <p>Comprehensive solutions for your precious eyesight, delivered with expertise and care.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="service-detail-card">
+                    <div class="service-item">
+                        <div class="service-image-container">
+                             <img src="https://images.unsplash.com/photo-1550355191-aa7583f09f1a?q=80&w=2864&auto=format&fit=crop" alt="Cataract Surgery" class="service-image">
+                        </div>
+                        <div class="service-content">
+                            <h3>Cataract Surgery</h3>
+                            <p>We specialize in state-of-the-art phacoemulsification (micro-incision) cataract surgery. This procedure involves removing the cloudy natural lens and replacing it with an advanced intraocular lens (IOL), restoring clear vision with minimal discomfort and rapid recovery time.</p>
+                            <a href="booking.html" class="cta-button">Book a Consultation</a>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-image-container">
+                            <img src="https://images.unsplash.com/photo-1606318801933-81e3347f3358?q=80&w=2835&auto=format&fit=crop" alt="LASIK & Refractive Surgery" class="service-image">
+                        </div>
+                        <div class="service-content">
+                            <h3>LASIK & Refractive Surgery</h3>
+                            <p>Say goodbye to glasses and contact lenses. Our clinic offers a suite of refractive surgeries, including blade-free LASIK, PRK, and ICL, to correct myopia, hyperopia, and astigmatism. We use the latest laser technology for precision and safety.</p>
+                            <a href="booking.html" class="cta-button">Am I a Candidate?</a>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-image-container">
+                             <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=2787&auto=format&fit=crop" alt="Pediatric Ophthalmology" class="service-image">
+                        </div>
+                        <div class="service-content">
+                            <h3>Pediatric Ophthalmology</h3>
+                            <p>Children's eyes require special attention. Our dedicated pediatric ophthalmologists are experts in diagnosing and treating conditions like amblyopia (lazy eye), strabismus (crossed eyes), and refractive errors in a child-friendly environment.</p>
+                            <a href="booking.html" class="cta-button">Schedule a Check-up</a>
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-image-container">
+                            <img src="https://images.unsplash.com/photo-1629433303833-95d4d1a49c2f?q=80&w=2835&auto=format&fit=crop" alt="Glaucoma Management" class="service-image">
+                        </div>
+                        <div class="service-content">
+                            <h3>Glaucoma Management</h3>
+                            <p>Known as the 'silent thief of sight,' glaucoma requires early detection and consistent management. We provide comprehensive glaucoma screening, diagnosis, and treatment options, including medication, laser therapy, and surgical procedures to preserve your vision.</p>
+                            <a href="booking.html" class="cta-button">Get Screened Today</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Netra Jyoti Clinic</h4>
+                    <p>Your vision, our mission. Providing world-class eye care services in the heart of India.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="doctors.html">Our Doctors</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="booking.html">Book Appointment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <p>123 Vision Avenue, Med-City, <br>New Delhi, 110001, India</p>
+                    <p>Phone: +91 98765 43210</p>
+                    <p>Email: info@netrajyoti.in</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">t</a>
+                        <a href="#" aria-label="Instagram">i</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Netra Jyoti Eye Clinic. All Rights Reserved. Designed for prototype purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+
+            mobileMenuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
