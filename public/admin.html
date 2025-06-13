@@ -28,39 +28,95 @@
                         <input type="password" id="password" name="password" required value="admin">
                     </div>
                     <button type="submit" class="form-submit-btn">Login</button>
-                    <p id="login-error-message" class="error-message" style="display:none; color:red; margin-top:10px;"></p>
+                    <p id="login-error-message" class="status-message error-message"></p>
                 </form>
             </div>
         </section>
 
-        <section class="admin-appointments-container section" id="admin-appointments-section" style="display:none;">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Appointments List</h2>
-                    <button id="logout-button" class="cta-button" style="margin-top: 20px; background-color: var(--primary-color);">Logout</button>
-                </div>
-                <div class="table-responsive">
-                    <table id="appointments-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Patient Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Doctor</th>
-                                <th>Date</th>
-                                <th>Time Slot</th>
-                                <th>Reason</th>
-                                <th>Submitted At</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
+        <div id="admin-dashboard" style="display:none;">
+            <div class="container admin-header-controls">
+                 <button id="logout-button" class="cta-button">Logout</button>
             </div>
-        </section>
+
+            <section class="admin-doctors-container section" id="admin-doctors-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Manage Doctors</h2>
+                    </div>
+                    <div class="admin-form-container">
+                        <h3>Add New Doctor</h3>
+                        <form id="add-doctor-form">
+                            <div class="form-group">
+                                <label for="doctor-name">Name</label>
+                                <input type="text" id="doctor-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctor-specialty">Specialty</label>
+                                <input type="text" id="doctor-specialty" name="specialty" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctor-bio">Bio (Optional)</label>
+                                <textarea id="doctor-bio" name="bio"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctor-image-url">Image URL (Optional)</label>
+                                <input type="url" id="doctor-image-url" name="image_url" placeholder="https://example.com/image.jpg">
+                            </div>
+                            <button type="submit" class="form-submit-btn">Add Doctor</button>
+                            <p id="add-doctor-message" class="status-message"></p>
+                        </form>
+                    </div>
+
+                    <h3>Current Doctors</h3>
+                     <p id="doctors-list-message" class="status-message"></p>
+                    <div class="table-responsive">
+                        <table id="doctors-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Specialty</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Doctor data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="admin-appointments-container section" id="admin-appointments-section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Appointments List</h2>
+                    </div>
+                    <p id="appointments-list-message" class="status-message"></p>
+                    <div class="table-responsive">
+                        <table id="appointments-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Patient Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Doctor</th>
+                                    <th>Date</th>
+                                    <th>Time Slot</th>
+                                    <th>Reason</th>
+                                    <th>Submitted At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="main-footer">

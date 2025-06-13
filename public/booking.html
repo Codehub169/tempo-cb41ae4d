@@ -29,7 +29,7 @@
             <div class="booking-form-wrapper">
                 <h1>Book an Appointment</h1>
                 <p>Fill out the form below to request an appointment. It's quick and easy.</p>
-                <form action="/api/book-appointment" method="POST">
+                <form id="booking-form" action="/api/book-appointment" method="POST">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="name">Patient Full Name</label>
@@ -45,12 +45,9 @@
                         </div>
                         <div class="form-group full-width">
                             <label for="doctor">Preferred Doctor</label>
-                            <select id="doctor" name="preferred_doctor">
+                            <select id="doctor" name="preferred_doctor_id">
                                 <option value="any">Any Available Doctor</option>
-                                <option value="sharma">Dr. Anjali Sharma</option>
-                                <option value="verma">Dr. Rohan Verma</option>
-                                <option value="desai">Dr. Priya Desai</option>
-                                <option value="singh">Dr. Vikram Singh</option>
+                                <!-- Doctor options will be dynamically populated here by JavaScript (main.js) -->
                             </select>
                         </div>
                         <div class="form-group">
@@ -74,6 +71,7 @@
                             <button type="submit" class="form-submit-btn">Request Appointment</button>
                         </div>
                     </div>
+                    <p id="booking-form-message" class="status-message" style="text-align:center; margin-top:15px;"></p>
                     <p class="form-note">Our team will call you to confirm your appointment slot within 24 hours.</p>
                 </form>
             </div>

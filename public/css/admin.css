@@ -1,41 +1,74 @@
 /* Admin Specific Styles */
 .admin-login-container,
+.admin-doctors-container,
 .admin-appointments-container {
-    padding-top: 120px; /* Adjust if header height is different or fixed */
+    padding-top: 50px; /* Reduced padding as header is simpler */
     padding-bottom: 60px;
-    min-height: calc(100vh - 180px); /* Full height minus header/footer approx */
+}
+
+.admin-header-controls {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 0;
+    margin-top: 80px; /* Space from main header */
 }
 
 .admin-login-container form {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 20px auto;
     background: var(--white);
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
 }
 
-.admin-login-container h2 {
+.admin-login-container h2,
+.admin-doctors-container .section-title h2,
+.admin-appointments-container .section-title h2 {
     text-align: center;
     color: var(--primary-color);
     margin-bottom: 2rem;
 }
 
-.admin-appointments-container .table-responsive {
-    overflow-x: auto; /* Allows table to be scrolled horizontally on small screens */
+.admin-form-container {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+}
+
+.admin-form-container h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.admin-doctors-container h3, /* For "Current Doctors" heading */
+.admin-appointments-container h3 {
+    color: var(--primary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-align: center; /* Center these subheadings too */
+}
+
+.table-responsive {
+    overflow-x: auto;
     background: var(--white);
     padding: 20px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    margin-top: 20px; /* Added margin for spacing */
+    margin-top: 10px;
 }
 
+#doctors-table,
 #appointments-table {
     width: 100%;
     border-collapse: collapse;
-    /* margin-top: 20px; Removed, parent has margin now */
 }
 
+#doctors-table th,
+#doctors-table td,
 #appointments-table th,
 #appointments-table td {
     border: 1px solid #ddd;
@@ -43,32 +76,42 @@
     text-align: left;
     font-size: 0.9rem;
     vertical-align: middle;
-    word-wrap: break-word; /* Ensure long text wraps */
+    word-wrap: break-word;
 }
 
+#doctors-table thead th,
 #appointments-table thead th {
     background-color: var(--light-gray);
     color: var(--primary-color);
     font-weight: 600;
-    position: sticky; /* Optional: make header sticky */
-    top: 0;           /* Optional: make header sticky */
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Ensure header stays above content when scrolling */
 }
 
+#doctors-table tbody tr:nth-child(even),
 #appointments-table tbody tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+#doctors-table tbody tr:hover,
 #appointments-table tbody tr:hover {
     background-color: #f1f1f1;
 }
 
+/* Common form group styling for admin forms */
+.admin-form-container .form-group label,
 .admin-login-container .form-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
 }
 
-.admin-login-container .form-group input {
+.admin-form-container .form-group input[type="text"],
+.admin-form-container .form-group input[type="url"],
+.admin-form-container .form-group textarea,
+.admin-login-container .form-group input[type="text"],
+.admin-login-container .form-group input[type="password"] {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid #ddd;
@@ -77,12 +120,18 @@
     font-size: 1rem;
     background-color: var(--light-gray);
 }
-.admin-login-container .form-group input:focus {
+
+.admin-form-container .form-group input[type="text"]:focus,
+.admin-form-container .form-group input[type="url"]:focus,
+.admin-form-container .form-group textarea:focus,
+.admin-login-container .form-group input[type="text"]:focus,
+.admin-login-container .form-group input[type="password"]:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.1);
 }
 
+.admin-form-container .form-submit-btn,
 .admin-login-container .form-submit-btn {
     width: 100%;
     padding: 15px;
@@ -96,71 +145,89 @@
     transition: all 0.3s ease;
     margin-top: 1rem;
 }
+
+.admin-form-container .form-submit-btn:hover,
 .admin-login-container .form-submit-btn:hover {
     background-color: #e68a0d;
 }
 
-.error-message {
-    color: red;
+.status-message {
     margin-top: 10px;
     text-align: center;
     font-size: 0.9em;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    display: block; /* Ensure it takes up full width for centering text */
+    box-sizing: border-box;
+}
+
+.status-message.error-message {
+    color: #D8000C; /* Red for errors */
+    background-color: #FFD2D2;
+    border: 1px solid #D8000C;
+}
+
+.status-message.success-message {
+    color: #4F8A10; /* Green for success */
+    background-color: #DFF2BF;
+    border: 1px solid #4F8A10;
+}
+/* Hide empty status messages */
+.status-message:empty {
+    display: none;
+}
+
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
 }
 
 #logout-button {
-    /* float: right; */ /* Replaced by flexbox in parent */
-    /* margin-bottom: 15px; */ /* Replaced by flexbox in parent */
+    background-color: var(--primary-color);
 }
 
-.admin-appointments-container .section-title {
-    /* position: relative; */ /* Not needed with flex */
-    /* overflow: auto; */ /* Not needed with flex */
-    display: flex; /* Use flexbox for alignment */
-    justify-content: space-between; /* Space between title and button */
-    align-items: center; /* Vertically align items */
-    margin-bottom: 20px; /* Add some space below the title/button row */
+#logout-button:hover {
+    background-color: var(--secondary-color);
 }
-
-.admin-appointments-container .section-title h2 {
-   margin-bottom: 0; /* Reset margin as flex handles spacing */
-}
-
 
 @media (max-width: 768px) {
+    #doctors-table th,
+    #doctors-table td,
     #appointments-table th,
     #appointments-table td {
         padding: 8px 10px;
         font-size: 0.85rem;
     }
-    .admin-appointments-container .section-title {
-        flex-direction: column; /* Stack title and button on smaller screens */
-        align-items: flex-start; /* Align items to the start */
+    .admin-appointments-container .section-title,
+    .admin-doctors-container .section-title {
+        flex-direction: column;
+        align-items: flex-start;
     }
-
-    .admin-appointments-container .section-title h2 {
+    .admin-appointments-container .section-title h2,
+    .admin-doctors-container .section-title h2 {
         font-size: 1.8rem;
-        /* float: left; */ /* Removed due to flex */
-        margin-bottom: 10px; /* Space if title wraps */
-    }
-    #logout-button {
-        /* float: right; */ /* Removed due to flex */
-        align-self: flex-start; /* Align button to the start when stacked */
+        margin-bottom: 10px;
     }
 }
 
 @media (max-width: 480px) {
-    .admin-appointments-container .section-title {
-         align-items: center; /* Center items when stacked on very small screens */
+    .admin-appointments-container .section-title,
+    .admin-doctors-container .section-title {
+         align-items: center;
     }
-    .admin-appointments-container .section-title h2 {
-        /* float: none; */ /* Removed due to flex */
+    .admin-appointments-container .section-title h2,
+    .admin-doctors-container .section-title h2 {
         text-align: center;
-    }
-    #logout-button {
-        /* float: none; */ /* Removed due to flex */
-        /* display: block; */ /* Button is already block-like */
-        /* margin: 15px auto; */ /* Replaced by flex alignment */
-        align-self: center; /* Center button when stacked */
-        margin-top: 15px; /* Add margin when stacked */
     }
 }
