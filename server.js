@@ -22,78 +22,39 @@ const db = new sqlite3.Database(dbPath, (err) => {
     } else {
         console.log('Connected to the SQLite database.');
         db.serialize(() => {
-            db.run(`CREATE TABLE IF NOT EXISTS contacts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                phone TEXT,
-                message TEXT NOT NULL,
-                submission_date TEXT DEFAULT CURRENT_TIMESTAMP
-            )`, (err) => {
-                if (err) console.error("Error creating contacts table", err.message);
+            // Contacts Table
+            db.run(`CREATE TABLE IF NOT EXISTS contacts (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                name TEXT NOT NULL,\n                email TEXT NOT NULL,\n                phone TEXT,\n                message TEXT NOT NULL,\n                submission_date TEXT DEFAULT CURRENT_TIMESTAMP\n            )`, (err) => {
+                if (err) console.error("Error creating contacts table:", err.message);
+                else console.log("Contacts table created/ensured successfully.");
             });
 
-            // Create doctors table
-            db.run(`CREATE TABLE IF NOT EXISTS doctors (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL UNIQUE,
-                specialty TEXT NOT NULL,
-                bio TEXT,
-                image_url TEXT
-            )`, (err) => {
-                if (err) console.error("Error creating doctors table", err.message);
+            // Doctors Table
+            db.run(`CREATE TABLE IF NOT EXISTS doctors (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                name TEXT NOT NULL UNIQUE,\n                specialty TEXT NOT NULL,\n                bio TEXT,\n                image_url TEXT\n            )`, (err) => {
+                if (err) console.error("Error creating doctors table:", err.message);
+                else console.log("Doctors table created/ensured successfully.");
             });
 
-            // Modify appointments table to use preferred_doctor_id
-            // Step 1: Check if 'preferred_doctor_id' column exists
-            db.all("PRAGMA table_info(appointments)", (err, columns) => {
+            // Appointments Table (dependent on doctors table for FK)
+            db.run(`CREATE TABLE IF NOT EXISTS appointments (\n                id INTEGER PRIMARY KEY AUTOINCREMENT,\n                patient_name TEXT NOT NULL,\n                phone TEXT NOT NULL,\n                email TEXT,\n                preferred_date TEXT NOT NULL,\n                preferred_time_slot TEXT,\n                reason TEXT,\n                submission_date TEXT DEFAULT CURRENT_TIMESTAMP,\n                preferred_doctor_id INTEGER,\n                FOREIGN KEY (preferred_doctor_id) REFERENCES doctors(id) ON DELETE SET NULL ON UPDATE CASCADE\n            )`, (err) => {
                 if (err) {
-                    console.error("Error fetching appointments table info:", err.message);
-                    // If appointments table doesn't exist yet, create it fully below
-                     db.run(`CREATE TABLE IF NOT EXISTS appointments (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        patient_name TEXT NOT NULL,
-                        phone TEXT NOT NULL,
-                        email TEXT,
-                        preferred_date TEXT NOT NULL,
-                        preferred_time_slot TEXT,
-                        reason TEXT,
-                        submission_date TEXT DEFAULT CURRENT_TIMESTAMP,
-                        preferred_doctor_id INTEGER REFERENCES doctors(id)
-                    )`, (err) => {
-                        if (err) console.error("Error creating appointments table initially", err.message);
-                    });
-                    return;
-                }
-                
-                const hasOldDoctorColumn = columns.some(col => col.name === 'preferred_doctor');
-                const hasNewDoctorIdColumn = columns.some(col => col.name === 'preferred_doctor_id');
-
-                if (!hasNewDoctorIdColumn) {
-                    db.run(`ALTER TABLE appointments ADD COLUMN preferred_doctor_id INTEGER REFERENCES doctors(id)`, (err) => {
-                        if (err) {
-                            console.warn("Could not add preferred_doctor_id column (might exist or other issue, e.g. table has data with FK constraint):", err.message);
-                        } else {
-                            console.log("Column 'preferred_doctor_id' added to appointments table.");
-                             // If old column 'preferred_doctor' exists, it's generally better to handle its data migration
-                             // and removal in a separate, controlled script. For this prototype, we'll leave it.
-                        }
-                    });
+                    console.error("Error creating appointments table:", err.message);
                 } else {
-                     // Ensure the base appointments table is created if it somehow passed the initial check but is malformed
-                    db.run(`CREATE TABLE IF NOT EXISTS appointments (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        patient_name TEXT NOT NULL,
-                        phone TEXT NOT NULL,
-                        email TEXT,
-                        preferred_date TEXT NOT NULL,
-                        preferred_time_slot TEXT,
-                        reason TEXT,
-                        submission_date TEXT DEFAULT CURRENT_TIMESTAMP,
-                        preferred_doctor_id INTEGER REFERENCES doctors(id) 
-                        ${hasOldDoctorColumn && !hasNewDoctorIdColumn ? ', preferred_doctor TEXT' : ''} 
-                    )`, (err) => {
-                        if (err) console.error("Error creating/ensuring appointments table structure", err.message);
+                    console.log("Appointments table created/ensured successfully.");
+                    // Optional: Check for and log if an old 'preferred_doctor' text column exists
+                    // This is a non-critical cleanup/diagnostic step.
+                    db.all("PRAGMA table_info(appointments)", (pragmaErr, columns) => {
+                        if (pragmaErr) {
+                            console.error("Error fetching appointments table info for post-creation check:", pragmaErr.message);
+                            return;
+                        }
+                        if (columns) { // Ensure columns is not undefined
+                            const hasOldDoctorTextColumn = columns.some(col => col.name === 'preferred_doctor' && col.type === 'TEXT');
+                            if (hasOldDoctorTextColumn) {
+                                console.warn("An old 'preferred_doctor' TEXT column was found in the appointments table. " +
+                                             "This column is no longer used and can be manually removed if desired. " +
+                                             "The system now uses 'preferred_doctor_id' (INTEGER).");
+                            }
+                        }
                     });
                 }
             });
